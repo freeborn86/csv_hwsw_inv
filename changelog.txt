@@ -1,0 +1,31 @@
+AIDA Report summary Changelog:
+____________________________
+v0.8 - not released yet
+-------------------------
+GUI with additional options
+____________________________
+v0.74- not released yet
+-------------------------
+-Duplicate SN filtering: keep newer
+-Separate Installed SW list
+-Display  DATE/SN bugfix
+____________________________
+v0.73bc - 2015.12.05
+-------------------------
+-added chassis type to computers:
+notebook / pc
+-CSV delimiter detection added
+to Config.Java
+____________________________
+v0.73 - 2015.09.29
+-------------------------
+-Removed Internet Explorer from
+licence list (ARS_LICNS.csv)
+
+-Removed report file name from
+attributes of ARS_COMPS.csv and
+added report date instead
+____________________________
+v0.72 - 2015.09.24
+-------------------------
+First release

@@ -16,8 +16,8 @@ import app.Config;
 
 public class ReadWrite {
 
-	public static final String inputSeparator = Config.inputSeparator;
-	public static final String outputSeparator = Config.outputSeparator;
+	private static String inputSeparator = Config.inputSeparator;
+	private static String outputSeparator = Config.outputSeparator;
 
 	public static void readCsvsWriteAttributes(String csvFilePath, FileWriter compsWriter,
 			FileWriter dispsWriter, FileWriter licnsWriter) throws InterruptedException {
