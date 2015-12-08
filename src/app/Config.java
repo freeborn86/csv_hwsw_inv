@@ -1,7 +1,8 @@
 package app;
 
 public class Config {
-
+	
+	//test commit to master
 	public static final String appVersion = "0.73b";
 	public static final String outputFileName = "ARS";
 	public static final String inputFileFolder = "aida_logs_input";
