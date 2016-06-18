@@ -165,6 +165,7 @@ public class ReadWrite {
 					}
 				}
 			}
+			//current change
 			compsWriter.append(
 					currentDate + outputSeparator + currentComputer.toString(outputSeparator) + "\r\n");
 		} catch (FileNotFoundException e) {
