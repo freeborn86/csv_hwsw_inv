@@ -19,8 +19,7 @@ public class ReadWrite {
 
 	private static String inputSeparator = Config.inputSeparator;
 	private static String outputSeparator = Config.outputSeparator;
-	
-	private ArrayList<Computer> computers;
+
 
 	public static void readCsvsWriteAttributes(String csvFilePath, FileWriter compsWriter, FileWriter dispsWriter,
 			FileWriter licnsWriter) throws InterruptedException {
