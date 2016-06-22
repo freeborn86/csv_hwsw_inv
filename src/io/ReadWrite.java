@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import app.Config;
@@ -18,9 +19,11 @@ public class ReadWrite {
 
 	private static String inputSeparator = Config.inputSeparator;
 	private static String outputSeparator = Config.outputSeparator;
+	
+	private ArrayList<Computer> computers;
 
-	public static void readCsvsWriteAttributes(String csvFilePath, FileWriter compsWriter,
-			FileWriter dispsWriter, FileWriter licnsWriter) throws InterruptedException {
+	public static void readCsvsWriteAttributes(String csvFilePath, FileWriter compsWriter, FileWriter dispsWriter,
+			FileWriter licnsWriter) throws InterruptedException {
 
 		Computer currentComputer = new Computer();
 		Display currentDisplay = new Display();
@@ -80,7 +83,7 @@ public class ReadWrite {
 					// computer sn
 					currentComputer.sn = data[data.length - 1].replaceAll(";", "");
 				}
-				
+
 				if (data[3].equals("563")) {
 					// computer chassis type
 					currentComputer.chassisType = data[data.length - 1].replaceAll(";", "");
@@ -118,8 +121,7 @@ public class ReadWrite {
 						currentDisplay.manDate = data[data.length - 1].replaceAll(";", "");
 					}
 
-					if (data[4].toLowerCase().matches("sorozatsz.m")
-							|| data[4].toLowerCase().equals("seriennummer")
+					if (data[4].toLowerCase().matches("sorozatsz.m") || data[4].toLowerCase().equals("seriennummer")
 							|| data[4].toLowerCase().equals("serial number")) {
 						// TODO: implement same SN based duplicate display
 						// filtering
@@ -152,22 +154,19 @@ public class ReadWrite {
 						|| (data[4].toLowerCase().matches("produktschl.ssel"))
 						|| data[4].toLowerCase().equals("product key"))) {
 
-					if ((data[0].toLowerCase().contains("licen")
-							|| data[0].toLowerCase().equals("lizenzen"))) {
+					if ((data[0].toLowerCase().contains("licen") || data[0].toLowerCase().equals("lizenzen"))) {
 						if (data[1].toLowerCase().contains("microsoft internet explorer")) {
 							// ignore Internet Explorer
 						} else {
-							licnsWriter.append(currentComputer.name + outputSeparator
-									+ data[1].replaceAll(";", "") + outputSeparator
-									+ data[data.length - 1].replaceAll(";", "") + "\r\n");
+							licnsWriter.append(currentComputer.name + outputSeparator + data[1].replaceAll(";", "")
+									+ outputSeparator + data[data.length - 1].replaceAll(";", "") + "\r\n");
 						}
 
 					}
 				}
 			}
-			//current change
-			compsWriter.append(
-					currentDate + outputSeparator + currentComputer.toString(outputSeparator) + "\r\n");
+			// current change on comp-dupe-filter branch
+			compsWriter.append(currentDate + outputSeparator + currentComputer.toString(outputSeparator) + "\r\n");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -183,8 +182,8 @@ public class ReadWrite {
 		}
 	}
 
-	public static void summarizeToCsvLists(String inputFileFolder, String outputFileFolder,
-			String outputFileName) throws IOException, InterruptedException {
+	public static void summarizeToCsvLists(String inputFileFolder, String outputFileFolder, String outputFileName)
+			throws IOException, InterruptedException {
 
 		Path inputFolder = Paths.get(inputFileFolder);
 		Path outputFolder = Paths.get(outputFileFolder);
@@ -192,28 +191,27 @@ public class ReadWrite {
 
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(inputFolder)) {
 
-			FileWriter compsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_"
-					+ Config.appVersion + "_" + timeStamp + "_COMPS.csv");
-			compsWriter.append("Report Date" + outputSeparator + "Name" + outputSeparator + "Chassis Type" + outputSeparator + "Type"
-					+ outputSeparator + "Memory" + outputSeparator + "CPU" + outputSeparator + "Motherboard"
-					+ outputSeparator + "Serial" + outputSeparator + "Windows Type" + outputSeparator
-					+ "Windows Product Key" + outputSeparator + "Primary Display" + outputSeparator
-					+ "Displays\r\n");
+			FileWriter compsWriter = new FileWriter(
+					outputFolder + "\\" + outputFileName + "_" + Config.appVersion + "_" + timeStamp + "_COMPS.csv");
+			compsWriter.append("Report Date" + outputSeparator + "Name" + outputSeparator + "Chassis Type"
+					+ outputSeparator + "Type" + outputSeparator + "Memory" + outputSeparator + "CPU" + outputSeparator
+					+ "Motherboard" + outputSeparator + "Serial" + outputSeparator + "Windows Type" + outputSeparator
+					+ "Windows Product Key" + outputSeparator + "Primary Display" + outputSeparator + "Displays\r\n");
 
 			FileWriter dispsWriter = null;
 			if (Config.listDisplays == true) {
-				dispsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_" + Config.appVersion
-						+ "_" + timeStamp + "_DISPS.csv");
-				dispsWriter.append("Host" + outputSeparator + "Type" + outputSeparator + "Name"
-						+ outputSeparator + "Resolution" + outputSeparator + "Serial Number" + outputSeparator
-						+ "Manufactured" + outputSeparator + "Size" + "\r\n");
+				dispsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_" + Config.appVersion + "_"
+						+ timeStamp + "_DISPS.csv");
+				dispsWriter.append("Host" + outputSeparator + "Type" + outputSeparator + "Name" + outputSeparator
+						+ "Resolution" + outputSeparator + "Serial Number" + outputSeparator + "Manufactured"
+						+ outputSeparator + "Size" + "\r\n");
 			}
 
 			FileWriter licnsWriter = null;
 			if (Config.listLicences == true) {
 
-				licnsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_" + Config.appVersion
-						+ "_" + timeStamp + "_LICNS.csv");
+				licnsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_" + Config.appVersion + "_"
+						+ timeStamp + "_LICNS.csv");
 				licnsWriter.append("Used by (Host)" + outputSeparator + "Software Name" + outputSeparator
 						+ "Product Key" /* + outputSeparator + "Use count" */ + "\r\n");
 
