@@ -1,4 +1,4 @@
-package io;
+package app;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,12 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-import app.Config;
+import config.Config;
 
-public class ReadWrite {
+public class OBSOLETE_ReadWrite {
 
 	private static String inputSeparator = Config.inputSeparator;
 	private static String outputSeparator = Config.outputSeparator;
@@ -41,7 +40,7 @@ public class ReadWrite {
 
 				if (data[3].equals("261")) {
 					// computer name
-					currentComputer.name = data[data.length - 1].replaceAll(";", "");
+					currentComputer.hostName = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("264")) {
@@ -50,37 +49,37 @@ public class ReadWrite {
 
 				if (data[3].equals("513")) {
 					// windows type
-					currentComputer.winType = data[data.length - 1].replaceAll(";", "");
+					currentComputer.microsoftOsType = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("517")) {
 					// cpu
-					currentComputer.cpu = data[data.length - 1].replaceAll(";", "");
+					currentComputer.cpuType = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("518")) {
 					// motherboard
-					currentComputer.mobo = data[data.length - 1].replaceAll(";", "");
+					currentComputer.motherboardType = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("520")) {
 					// memory amount
-					currentComputer.ram = data[data.length - 1].replaceAll(";", "");
+					currentComputer.ramSize = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("525")) {
 					// primary display
-					currentComputer.display = data[data.length - 1].replaceAll(";", "");
+					currentComputer.primaryDisplay = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("551")) {
 					// comp type
-					currentComputer.type = data[data.length - 1].replaceAll(";", "");
+					currentComputer.model = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("553")) {
 					// computer sn
-					currentComputer.sn = data[data.length - 1].replaceAll(";", "");
+					currentComputer.serialNumber = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if (data[3].equals("563")) {
@@ -90,7 +89,7 @@ public class ReadWrite {
 
 				if (data[3].equals("3853")) {
 					// win key
-					currentComputer.winKey = data[data.length - 1].replaceAll(";", "");
+					currentComputer.microsoftOsProductKey = data[data.length - 1].replaceAll(";", "");
 				}
 
 				if ((data[0].toLowerCase().matches("k.perny.") || data[0].toLowerCase().equals("monitor"))) {
@@ -100,7 +99,7 @@ public class ReadWrite {
 						currentDisplay = new Display();
 						newDisp = true;
 						currentDisplay.name = data[data.length - 1].replaceAll(";", "");
-						currentDisplay.host = currentComputer.name;
+						currentDisplay.host = currentComputer.hostName;
 						currentComputer.externalDisplayCount++;
 					}
 
@@ -117,26 +116,26 @@ public class ReadWrite {
 					if (data[4].toLowerCase().matches("gy.rt.s ideje")
 							|| data[4].toLowerCase().equals("herstellungsdatum")
 							|| data[4].toLowerCase().equals("serial number")) {
-						currentDisplay.manDate = data[data.length - 1].replaceAll(";", "");
+						currentDisplay.manufacturingDate = data[data.length - 1].replaceAll(";", "");
 					}
 
 					if (data[4].toLowerCase().matches("sorozatsz.m") || data[4].toLowerCase().equals("seriennummer")
 							|| data[4].toLowerCase().equals("serial number")) {
 						// TODO: implement same SN based duplicate display
 						// filtering
-						currentDisplay.sn = data[data.length - 1].replaceAll(";", "");
+						currentDisplay.serialNumber = data[data.length - 1].replaceAll(";", "");
 					}
 
 					if (data[4].toLowerCase().matches("maxim.lis l.that. kijelz. m.ret")
 							|| data[4].toLowerCase().contains("max. visible display size")
 							|| data[4].toLowerCase().matches("maximale sichtbare bildschirmgr.ße")) {
-						currentDisplay.size = data[data.length - 1].replaceAll(";", "");
+						currentDisplay.sizeInInches = data[data.length - 1].replaceAll(";", "");
 					}
 
 					if ((data[4].toLowerCase().matches("maxim.lis felbont.s")
 							|| data[4].toLowerCase().contains("maximum resolution")
 							|| data[4].toLowerCase().matches("maximale aufl.sung"))) {
-						currentDisplay.res = data[data.length - 1].replaceAll(";", "");
+						currentDisplay.resolution = data[data.length - 1].replaceAll(";", "");
 					}
 
 					if (data[2].toLowerCase().matches("t.mogatott megjelen.t.si m.dok")
@@ -157,7 +156,7 @@ public class ReadWrite {
 						if (data[1].toLowerCase().contains("microsoft internet explorer")) {
 							// ignore Internet Explorer
 						} else {
-							licnsWriter.append(currentComputer.name + outputSeparator + data[1].replaceAll(";", "")
+							licnsWriter.append(currentComputer.hostName + outputSeparator + data[1].replaceAll(";", "")
 									+ outputSeparator + data[data.length - 1].replaceAll(";", "") + "\r\n");
 						}
 

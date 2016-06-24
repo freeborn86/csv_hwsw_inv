@@ -1,43 +1,40 @@
-package io;
-
-//import java.util.LinkedHashSet;
+package app;
 
 public class Computer {
 	// The below fields of computer store hardware attributes of a certain
 	// computer
-	String name;
+	String hostName;
 	String chassisType;
-	String type;
-	String cpu;
-	String ram;
-	String mobo;
-	String sn;
-	String display;
+	String model;
+	String cpuType;
+	String ramSize;
+	String motherboardType;
+	String serialNumber;
+	String primaryDisplay;
+
+	String microsoftOsType;
+	String microsoftOsProductKey;
+
 	Integer externalDisplayCount;
 
-	// The below two fields store the type of windows installed on the computer
-	// and its licence
-	String winType;
-	String winKey;
-
-	public Computer(String name, String chassisType, String type, String cpu, String ram, String mobo, String sn, String display, Integer externalDisplayCount,
-			String winType, String winKey) {
-		this.name = name;
+	public Computer(String hostName, String chassisType, String model, String cpuType, String ramSize,
+			String motherboardType, String serialNumber, String primaryDisplay, String microsoftOsType,
+			String microsoftOsProductKey, Integer externalDisplayCount) {
+		this.hostName = hostName;
 		this.chassisType = chassisType;
-		this.type = type;
-		this.cpu = cpu;
-		this.ram = ram;
-		this.mobo = mobo;
-		this.sn = sn;
-		this.display = display;
+		this.model = model;
+		this.cpuType = cpuType;
+		this.ramSize = ramSize;
+		this.motherboardType = motherboardType;
+		this.serialNumber = serialNumber;
+		this.primaryDisplay = primaryDisplay;
+		this.microsoftOsType = microsoftOsType;
+		this.microsoftOsProductKey = microsoftOsProductKey;
 		this.externalDisplayCount = externalDisplayCount;
-		this.winType = winType;
-		this.winKey = winKey;
-
 	}
 
 	public Computer() {
-		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", 0, "N/A", "N/A");
+		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", 0);
 	}
 
 	public String toString() {
@@ -45,8 +42,9 @@ public class Computer {
 	}
 
 	public String toString(String separator) {
-		return this.name + separator + this.chassisType + separator + this.type + separator + this.ram.replaceAll(" MB", "") + separator
-				+ this.cpu + separator + this.mobo + separator + this.sn + separator + this.winType
-				+ separator + this.winKey + separator + this.display + separator + this.externalDisplayCount;
+		return this.hostName + separator + this.chassisType + separator + this.model + separator
+				+ this.ramSize.replaceAll(" MB", "") + separator + this.cpuType + separator + this.motherboardType
+				+ separator + this.serialNumber + separator + this.microsoftOsType + separator
+				+ this.microsoftOsProductKey + separator + this.primaryDisplay + separator + this.externalDisplayCount;
 	}
 }
