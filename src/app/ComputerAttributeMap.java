@@ -3,9 +3,13 @@ package app;
 import config.Config;
 
 public class ComputerAttributeMap {
-
+	// TODO function should be void?
 	static Computer checkLineAndInsertData(String line, Computer computer) {
 		String[] data = line.split(Config.inputSeparator);
+		// The AIDA report stores the value of the attribute on the 6th column
+		// without it no meaningful data can be extracted from the report
+		if (data.length < 6)
+			return computer;
 		Integer Id = Integer.parseInt(data[3]);
 		if (isChassisType(Id))
 			computer.chassisType = getLastElementWithoutSemiColons(data);
@@ -24,14 +28,15 @@ public class ComputerAttributeMap {
 		if (isRamSize(Id))
 			computer.ramSize = getLastElementWithoutSemiColons(data);
 		if (isPrimaryDisplay(Id))
-			computer.primaryDisplay = getLastElementWithoutSemiColons(data);;
+			computer.primaryDisplay = getLastElementWithoutSemiColons(data);
+		;
 		if (isSerialNumber(Id))
 			computer.serialNumber = getLastElementWithoutSemiColons(data);
-
 		return computer;
 	}
 	
-	static String getLastElementWithoutSemiColons(String [] data){
+
+	static String getLastElementWithoutSemiColons(String[] data) {
 		return data[data.length - 1].replaceAll(";", "");
 	}
 
