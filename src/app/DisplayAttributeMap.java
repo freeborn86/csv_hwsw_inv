@@ -6,25 +6,30 @@ public class DisplayAttributeMap {
 
 	// TODO function should be void? Function should be decomposed to smaller
 	// functions
-	static void checkLineAndInsertData(String[] data, Display display, LinkedList<Display> displays) {
+	static Display checkLineAndInsertData(String[] data, Computer computer, Display display,
+			LinkedList<Display> displays) {
 		if (data.length < 6)
-			return;
+			return null;
 
 		if (!data[0].toLowerCase().equals("monitor"))
-			return;
+			return null;
 
 		String displayAttributeId = data[4];
+
+		// Since the Aida report is sequential finding a monitor name signifies
+		// a new display
+		if (isName(displayAttributeId)) {
+			if (display == null) {
+				display = new Display();
+				display.name = getLastElementWithoutSemiColons(data);
+				display.host = computer.hostName;
+			}
+		}
+		
 		if (isManufacturingDate(displayAttributeId))
 			display.manufacturingDate = getLastElementWithoutSemiColons(data);
 		if (isModel(displayAttributeId))
 			display.model = getLastElementWithoutSemiColons(data);
-
-		// Since the Aida report is sequential having a monitor name signifies a
-		// new display
-		if (isName(displayAttributeId)) {
-			
-			display.name = getLastElementWithoutSemiColons(data);
-		}
 		if (isResolution(displayAttributeId))
 			display.resolution = getLastElementWithoutSemiColons(data);
 		if (isSerialNumber(displayAttributeId))
@@ -33,9 +38,13 @@ public class DisplayAttributeMap {
 			display.sizeInInches = getLastElementWithoutSemiColons(data);
 		if (isType(displayAttributeId))
 			display.type = getLastElementWithoutSemiColons(data);
-		if (isSupportedModes(displayAttributeId))
+		
+		//This attribute follows any important other, therefore adding fields ends at it
+		if (isSupportedModes(displayAttributeId)) {
 			displays.add(display);
-			return;
+			display = null;
+		}
+		return display;
 	}
 
 	static String getLastElementWithoutSemiColons(String[] data) {
