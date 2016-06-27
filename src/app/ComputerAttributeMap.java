@@ -1,11 +1,8 @@
 package app;
 
-import config.Config;
-
 public class ComputerAttributeMap {
 	// TODO function should be void?
-	static Computer checkLineAndInsertData(String line, Computer computer) {
-		String[] data = line.split(Config.inputSeparator);
+	static Computer checkAndInsertData(String[] data, Computer computer) {
 		// The AIDA report stores the value of the attribute on the 6th column
 		// without it no meaningful data can be extracted from the report
 		if (data.length < 6)

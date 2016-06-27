@@ -1,41 +1,41 @@
 package app;
 
-import config.Config;
+import java.util.LinkedList;
 
 public class DisplayAttributeMap {
 
-	/**
-	 * String name; String model; String type; String manufacturingDate; String
-	 * serialNumber; String sizeInInches; String resolution; String host;
-	 */
-
 	// TODO function should be void? Function should be decomposed to smaller
 	// functions
-	static Display checkLineAndInsertData(String line, Display display) {
-		String[] data = line.split(Config.inputSeparator);
+	static void checkLineAndInsertData(String[] data, Display display, LinkedList<Display> displays) {
 		if (data.length < 6)
-			return display;
+			return;
 
 		if (!data[0].toLowerCase().equals("monitor"))
-			return display;
+			return;
 
 		String displayAttributeId = data[4];
 		if (isManufacturingDate(displayAttributeId))
 			display.manufacturingDate = getLastElementWithoutSemiColons(data);
 		if (isModel(displayAttributeId))
 			display.model = getLastElementWithoutSemiColons(data);
-		if (isName(displayAttributeId))
-			display.name = getLastElementWithoutSemiColons(data);
-		if (isResolution(displayAttributeId))
-				display.resolution = getLastElementWithoutSemiColons(data);
-		if (isSerialNumber(displayAttributeId))
-				display.serialNumber = getLastElementWithoutSemiColons(data);
-		if (isSizeInInches(displayAttributeId))
-				display.sizeInInches = getLastElementWithoutSemiColons(data);
-		if (isType(displayAttributeId))
-				display.type = getLastElementWithoutSemiColons(data);
 
-		return display;
+		// Since the Aida report is sequential having a monitor name signifies a
+		// new display
+		if (isName(displayAttributeId)) {
+			
+			display.name = getLastElementWithoutSemiColons(data);
+		}
+		if (isResolution(displayAttributeId))
+			display.resolution = getLastElementWithoutSemiColons(data);
+		if (isSerialNumber(displayAttributeId))
+			display.serialNumber = getLastElementWithoutSemiColons(data);
+		if (isSizeInInches(displayAttributeId))
+			display.sizeInInches = getLastElementWithoutSemiColons(data);
+		if (isType(displayAttributeId))
+			display.type = getLastElementWithoutSemiColons(data);
+		if (isSupportedModes(displayAttributeId))
+			displays.add(display);
+			return;
 	}
 
 	static String getLastElementWithoutSemiColons(String[] data) {
@@ -64,6 +64,10 @@ public class DisplayAttributeMap {
 
 	public static boolean isSizeInInches(String displayAttributeId) {
 		return displayAttributeId.toLowerCase().equals("max. visible display size");
+	}
+
+	public static boolean isSupportedModes(String displayAttributeId) {
+		return displayAttributeId.toLowerCase().equals("supported video modes");
 	}
 
 	public static boolean isResolution(String displayAttributeId) {
