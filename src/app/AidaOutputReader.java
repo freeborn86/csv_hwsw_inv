@@ -49,7 +49,7 @@ public class AidaOutputReader {
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(config.Config.inputSeparator);
 				
-				ComputerAttributeMap.checkAndInsertData(data, currentComputer);
+				ComputerAttributeMap.checkAndInsertData(data, currentComputer, computers);
 
 			}
 

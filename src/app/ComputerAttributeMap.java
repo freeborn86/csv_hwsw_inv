@@ -1,8 +1,10 @@
 package app;
 
+import java.util.LinkedList;
+
 public class ComputerAttributeMap {
 	// TODO function should be void?
-	static Computer checkAndInsertData(String[] data, Computer computer) {
+	static Computer checkAndInsertData(String[] data, Computer computer, LinkedList<Computer> computers) {
 		// The AIDA report stores the value of the attribute on the 6th column
 		// without it no meaningful data can be extracted from the report
 		if (data.length < 6)
@@ -16,8 +18,6 @@ public class ComputerAttributeMap {
 			computer.hostName = getLastElementWithoutSemiColons(data);
 		if (isMicrosoftOsProductKey(Id))
 			computer.microsoftOsProductKey = getLastElementWithoutSemiColons(data);
-		if (isMicrosoftOsType(Id))
-			computer.microsoftOsType = getLastElementWithoutSemiColons(data);
 		if (isModel(Id))
 			computer.model = getLastElementWithoutSemiColons(data);
 		if (isMotherboardType(Id))
@@ -29,9 +29,12 @@ public class ComputerAttributeMap {
 		;
 		if (isSerialNumber(Id))
 			computer.serialNumber = getLastElementWithoutSemiColons(data);
+		if (isMicrosoftOsType(Id)) {
+			computer.microsoftOsType = getLastElementWithoutSemiColons(data);
+			computers.add(computer);
+		}
 		return computer;
 	}
-	
 
 	static String getLastElementWithoutSemiColons(String[] data) {
 		return data[data.length - 1].replaceAll(";", "");
