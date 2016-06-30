@@ -10,7 +10,7 @@ public class Config {
 		outputSeparator = (sList != null && !sList.equals("")) ? sList : ",";
 	}
 	
-	public static final String appVersion = "0.73b";
+	public static final String appVersion = "0.74";
 	public static final String outputFilePrefix = "ARS_" + appVersion + "_";
 	public static final String inputFileFolder = "aida_logs_input";
 	public static final String outputFileFolder = "aida_logs_output";
