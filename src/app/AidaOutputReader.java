@@ -25,7 +25,7 @@ public class AidaOutputReader {
 
 	public static void readAidaOutputFiles()
 			throws IOException, InterruptedException {
-		Path inputFolder = Paths.get(config.Config.outputFileFolder);
+		Path inputFolder = Paths.get(config.Config.inputFileFolder);
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(inputFolder)) {
 			for (Path entry : stream) {
 				app.AidaOutputReader.readCsv(entry.toString());
