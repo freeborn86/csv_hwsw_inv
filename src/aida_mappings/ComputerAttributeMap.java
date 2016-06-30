@@ -1,36 +1,44 @@
-package app;
+package aida_mappings;
 
 import java.util.LinkedList;
 
+import enrty_types.ComputerReportEntry;
+
 public class ComputerAttributeMap {
 	// TODO function should be void?
-	static Computer checkAndInsertData(String[] data, Computer computer, LinkedList<Computer> computers) {
+	public static ComputerReportEntry checkAndInsertData(String[] data, ComputerReportEntry computer,
+			LinkedList<ComputerReportEntry> computers) {
 		// The AIDA report stores the value of the attribute on the 6th column
 		// without it no meaningful data can be extracted from the report
 		if (data.length < 6)
 			return computer;
 		Integer Id = Integer.parseInt(data[3]);
-		if (isChassisType(Id))
-			computer.chassisType = getLastElementWithoutSemiColons(data);
-		if (isCpuType(Id))
-			computer.cpuType = getLastElementWithoutSemiColons(data);
 		if (isHostName(Id))
-			computer.hostName = getLastElementWithoutSemiColons(data);
+			computer.setHostName(getLastElementWithoutSemiColons(data));
+		if (isReportDate(Id))
+			computer.setDate(getLastElementWithoutSemiColons(data));
+		if (isReportTime(Id))
+			computer.setTime(getLastElementWithoutSemiColons(data));
+		if (isChassisType(Id))
+			computer.setChassisType(getLastElementWithoutSemiColons(data));
+		if (isCpuType(Id))
+			computer.setCpuType(getLastElementWithoutSemiColons(data));
 		if (isMicrosoftOsProductKey(Id))
-			computer.microsoftOsProductKey = getLastElementWithoutSemiColons(data);
+			computer.setMicrosoftOsProductKey(getLastElementWithoutSemiColons(data));
 		if (isModel(Id))
-			computer.model = getLastElementWithoutSemiColons(data);
+			computer.setModel(getLastElementWithoutSemiColons(data));
 		if (isMotherboardType(Id))
-			computer.motherboardType = getLastElementWithoutSemiColons(data);
+			computer.setMotherboardType(getLastElementWithoutSemiColons(data));
 		if (isRamSize(Id))
-			computer.ramSize = getLastElementWithoutSemiColons(data);
+			computer.setRamSize(getLastElementWithoutSemiColons(data));
 		if (isPrimaryDisplay(Id))
-			computer.primaryDisplay = getLastElementWithoutSemiColons(data);
-		;
+			computer.setPrimaryDisplay(getLastElementWithoutSemiColons(data));
 		if (isSerialNumber(Id))
-			computer.serialNumber = getLastElementWithoutSemiColons(data);
+			computer.setSerialNumber(getLastElementWithoutSemiColons(data));
+		// since this is the last attribute adding the computer at it to the
+		// list
 		if (isMicrosoftOsType(Id)) {
-			computer.microsoftOsType = getLastElementWithoutSemiColons(data);
+			computer.setMicrosoftOsType(getLastElementWithoutSemiColons(data));
 			computers.add(computer);
 		}
 		return computer;

@@ -1,13 +1,16 @@
-package app;
+package aida_mappings;
 
 import java.util.LinkedList;
+
+import enrty_types.ComputerReportEntry;
+import enrty_types.DisplayReportEntry;
 
 public class DisplayAttributeMap {
 
 	// TODO function should be void? Function should be decomposed to smaller
 	// functions
-	static Display checkLineAndInsertData(String[] data, Computer computer, Display display,
-			LinkedList<Display> displays) {
+	public static DisplayReportEntry checkLineAndInsertData(String[] data, ComputerReportEntry computer, DisplayReportEntry display,
+			LinkedList<DisplayReportEntry> displays) {
 		if (data.length < 6)
 			return null;
 
@@ -20,24 +23,25 @@ public class DisplayAttributeMap {
 		// a new display
 		if (isName(displayAttributeId)) {
 			if (display == null) {
-				display = new Display();
-				display.name = getLastElementWithoutSemiColons(data);
-				display.host = computer.hostName;
+				display = new DisplayReportEntry();
+				display.setName(getLastElementWithoutSemiColons(data));
+				display.setHost(computer.getHostName());
+				computer.setExternalDisplayCount(computer.getExternalDisplayCount() + 1);
 			}
 		}
 		
 		if (isManufacturingDate(displayAttributeId))
-			display.manufacturingDate = getLastElementWithoutSemiColons(data);
+			display.setManufacturingDate(getLastElementWithoutSemiColons(data));
 		if (isModel(displayAttributeId))
-			display.model = getLastElementWithoutSemiColons(data);
+			display.setModel(getLastElementWithoutSemiColons(data));
 		if (isResolution(displayAttributeId))
-			display.resolution = getLastElementWithoutSemiColons(data);
+			display.setResolution(getLastElementWithoutSemiColons(data));
 		if (isSerialNumber(displayAttributeId))
-			display.serialNumber = getLastElementWithoutSemiColons(data);
+			display.setSerialNumber(getLastElementWithoutSemiColons(data));
 		if (isSizeInInches(displayAttributeId))
-			display.sizeInInches = getLastElementWithoutSemiColons(data);
+			display.setSizeInInches(getLastElementWithoutSemiColons(data));
 		if (isType(displayAttributeId))
-			display.type = getLastElementWithoutSemiColons(data);
+			display.setType(getLastElementWithoutSemiColons(data));
 		
 		//This attribute follows any important other, therefore adding fields ends at it
 		if (isSupportedModes(displayAttributeId)) {

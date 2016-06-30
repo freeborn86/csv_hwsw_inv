@@ -3,43 +3,41 @@ package app;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 
-import config.Config;
+import aida_mappings.ComputerAttributeMap;
+import aida_mappings.DisplayAttributeMap;
+import aida_mappings.LicenceAttributeMap;
+import enrty_types.ComputerReportEntry;
+import enrty_types.DisplayReportEntry;
+import enrty_types.LicenceReportEntry;
 
 public class AidaOutputReader {
 
-	private LinkedList<Computer> computers;
-	private LinkedList<Display> displays;
-	private LinkedList<Licence> licences;
+	private static LinkedList<ComputerReportEntry> computers;
+	private static LinkedList<DisplayReportEntry> displays;
+	private static LinkedList<LicenceReportEntry> licences;
 
-	public void readAidaOutputFiles(String inputFileFolder, String outputFileFolder, String outputFileName)
+	public static void readAidaOutputFiles()
 			throws IOException, InterruptedException {
-		Path inputFolder = Paths.get(inputFileFolder);
+		Path inputFolder = Paths.get(config.Config.outputFileFolder);
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(inputFolder)) {
 			for (Path entry : stream) {
-				app.AidaOutputReader.readCsvs(entry.toString());
+				app.AidaOutputReader.readCsv(entry.toString());
 			}
 		}
 	}
 
-	public static void readCsvs(String csvFilePath) throws InterruptedException {
+	private static void readCsv(String csvFilePath) throws InterruptedException {
 
-		Computer currentComputer = new Computer();
-		/*
-		Display currentDisplay = new Display();
-		boolean newDisp = false;
-		String currentDate = "N/A";
-		 */
-		
+		ComputerReportEntry currentComputer = new ComputerReportEntry();
+		DisplayReportEntry currentDisplay = null;
+
 		BufferedReader br = null;
 		String line = "";
 
@@ -48,8 +46,11 @@ public class AidaOutputReader {
 			br = new BufferedReader(new FileReader(csvFilePath));
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(config.Config.inputSeparator);
-				
+
 				ComputerAttributeMap.checkAndInsertData(data, currentComputer, computers);
+				currentDisplay = DisplayAttributeMap.checkLineAndInsertData(data, currentComputer, currentDisplay,
+						displays);
+				LicenceAttributeMap.checkLineAndInsertData(data, currentComputer, licences);
 
 			}
 
@@ -68,31 +69,15 @@ public class AidaOutputReader {
 		}
 	}
 
-	void displayAndLicenceHostBinding(String[] data, Computer currentComputer, Display currentDisplay,
-			FileWriter licnsWriter, boolean newDisp) throws IOException {
-		if (data[0].toLowerCase().equals("monitor")) {
-
-			if (data[4].toLowerCase().equals("monitor name")) {
-				currentDisplay = new Display();
-				newDisp = true;
-				currentDisplay.name = data[data.length - 1].replaceAll(";", "");
-				currentDisplay.host = currentComputer.hostName;
-				currentComputer.externalDisplayCount++;
-			}
-
-		}
-		if (licnsWriter != null && (data[4].toLowerCase().equals("product key"))) {
-
-			if (data[0].toLowerCase().equals("licenses")) {
-				if (data[1].toLowerCase().contains("microsoft internet explorer")) {
-					// ignore Internet Explorer
-				} else {
-					licnsWriter.append(currentComputer.hostName + Config.outputSeparator + data[1].replaceAll(";", "")
-							+ Config.outputSeparator + data[data.length - 1].replaceAll(";", "") + "\r\n");
-				}
-
-			}
-		}
+	public static LinkedList<ComputerReportEntry> getComputers() {
+		return computers;
 	}
 
+	public static LinkedList<DisplayReportEntry> getDisplays() {
+		return displays;
+	}
+
+	public static LinkedList<LicenceReportEntry> getLicences() {
+		return licences;
+	}
 }

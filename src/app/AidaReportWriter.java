@@ -2,73 +2,93 @@ package app;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import config.Config;
+import enrty_types.ComputerReportEntry;
+import enrty_types.DisplayReportEntry;
+import enrty_types.LicenceReportEntry;
 
 public class AidaReportWriter {
-	
-	public static void summarizeToCsvLists(String inputFileFolder, String outputFileFolder, String outputFileName)
-			throws IOException, InterruptedException {
 
-		Path inputFolder = Paths.get(inputFileFolder);
-		Path outputFolder = Paths.get(outputFileFolder);
-		String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HHmm.ss").format(new Date());
+	public static void writeReports() throws IOException {
+		writeComputerReport();
+		writeDisplayReport();
+		writeLicenceReport();
+	}
 
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(inputFolder)) {
+	private static void writeComputerReport() throws IOException {
+		FileWriter computersWriter = new FileWriter(computerReportPath);
+		computersWriter.append(computerReportHeader);
+		writeComputerReportBody(computersWriter);
+		safeClose(computersWriter);
+	}
 
-			FileWriter compsWriter = new FileWriter(
-					outputFolder + "\\" + outputFileName + "_" + Config.appVersion + "_" + timeStamp + "_COMPS.csv");
-			compsWriter.append("Report Date" + config.Config.outputSeparator + "Name" + config.Config.outputSeparator + "Chassis Type"
-					+ config.Config.outputSeparator + "Type" + config.Config.outputSeparator + "Memory" + config.Config.outputSeparator + "CPU" + config.Config.outputSeparator
-					+ "Motherboard" + config.Config.outputSeparator + "Serial" + config.Config.outputSeparator + "Windows Type" + config.Config.outputSeparator
-					+ "Windows Product Key" + config.Config.outputSeparator + "Primary Display" + config.Config.outputSeparator + "Displays\r\n");
+	private static void writeDisplayReport() throws IOException {
+		FileWriter displaysWriter = new FileWriter(displayReportPath);
+		displaysWriter.append(displayReportHeader);
+		writeDisplayReportBody(displaysWriter);
+		safeClose(displaysWriter);
+	}
 
-			FileWriter dispsWriter = null;
-			if (Config.listDisplays == true) {
-				dispsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_" + Config.appVersion + "_"
-						+ timeStamp + "_DISPS.csv");
-				dispsWriter.append("Host" + config.Config.outputSeparator + "Type" + config.Config.outputSeparator + "Name" + config.Config.outputSeparator
-						+ "Resolution" + config.Config.outputSeparator + "Serial Number" + config.Config.outputSeparator + "Manufactured"
-						+ config.Config.outputSeparator + "Size" + "\r\n");
-			}
+	private static void writeLicenceReport() throws IOException {
+		FileWriter licencesWriter = new FileWriter(licenceReportPath);
+		licencesWriter.append(licenceReportHeader);
+		writeLicenceReportBody(licencesWriter);
+		safeClose(licencesWriter);
+	}
 
-			FileWriter licnsWriter = null;
-			if (Config.listLicences == true) {
+	private static String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HHmm.ss").format(new Date());
+	private static String reportPath = Paths.get(Config.outputFileFolder) + "\\" + Paths.get(Config.outputFilePrefix)
+			+ timeStamp;
 
-				licnsWriter = new FileWriter(outputFolder + "\\" + outputFileName + "_" + Config.appVersion + "_"
-						+ timeStamp + "_LICNS.csv");
-				licnsWriter.append("Used by (Host)" + config.Config.outputSeparator + "Software Name" + config.Config.outputSeparator
-						+ "Product Key" /* + outputSeparator + "Use count" */ + "\r\n");
+	private static String computerReportPath = reportPath + "_COMPS.csv";
+	private static String displayReportPath = reportPath + "_DISPS.csv";
+	private static String licenceReportPath = reportPath + "_LICNS.csv";
 
-				// TODO: implement licence use count
-			}
+	// TODO: smarter automatic generation / inclusion of fields from classes
+	private static String computerReportHeader = "Report Date" + config.Config.outputSeparator + "Report Time"
+			+ config.Config.outputSeparator + "Name" + config.Config.outputSeparator + "Chassis Type"
+			+ config.Config.outputSeparator + "Type" + config.Config.outputSeparator + "Memory"
+			+ config.Config.outputSeparator + "CPU" + config.Config.outputSeparator + "Motherboard"
+			+ config.Config.outputSeparator + "Serial" + config.Config.outputSeparator + "Windows Type"
+			+ config.Config.outputSeparator + "Windows Product Key" + config.Config.outputSeparator + "Primary Display"
+			+ config.Config.outputSeparator + "Displays\r\n";
 
-			for (Path entry : stream) {
-				// compsWriter.append(entry + outputSeparator);
-				app.AidaOutputReader.readCsvsWriteAttributes(entry.toString(), compsWriter, dispsWriter, licnsWriter);
-			}
-			if (compsWriter != null) {
-				compsWriter.flush();
-				compsWriter.close();
-			}
-			if (dispsWriter != null) {
-				dispsWriter.flush();
-				dispsWriter.close();
-			}
+	private static String displayReportHeader = "Host" + config.Config.outputSeparator + "Type"
+			+ config.Config.outputSeparator + "Name" + config.Config.outputSeparator + "Resolution"
+			+ config.Config.outputSeparator + "Serial Number" + config.Config.outputSeparator + "Manufactured"
+			+ config.Config.outputSeparator + "Size" + "\r\n";
 
-			if (licnsWriter != null) {
-				licnsWriter.flush();
-				licnsWriter.close();
-			}
+	private static String licenceReportHeader = "Used by (Host)" + config.Config.outputSeparator + "Software Name"
+			+ config.Config.outputSeparator + "Product Key" + "\r\n";
 
+	// TODO: more generic less repetitive approach with writeReportBody in
+	// AidaOutPutReader, or in separate Report classes
+	private static void writeComputerReportBody(FileWriter fw) throws IOException {
+		for (ComputerReportEntry computerEntry : AidaOutputReader.getComputers()) {
+			fw.append(computerEntry.toString());
 		}
 	}
 
+	private static void writeDisplayReportBody(FileWriter fw) throws IOException {
+		for (DisplayReportEntry displayEntry : AidaOutputReader.getDisplays()) {
+			fw.append(displayEntry.toString());
+		}
+	}
 
+	private static void writeLicenceReportBody(FileWriter fw) throws IOException {
+		for (LicenceReportEntry LicenceEntry : AidaOutputReader.getLicences()) {
+			fw.append(LicenceEntry.toString());
+		}
+	}
+
+	private static void safeClose(FileWriter fw) throws IOException {
+		if (fw != null) {
+			fw.flush();
+			fw.close();
+		}
+	}
 }
