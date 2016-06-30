@@ -28,7 +28,7 @@ public class DisplayReportEntry {
 	}
 
 	public String toString() {
-		return toString(", ");
+		return toString(config.Config.outputSeparator);
 	}
 
 	public String toString(String separator) {

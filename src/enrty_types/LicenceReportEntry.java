@@ -18,11 +18,11 @@ public class LicenceReportEntry {
 	}
 
 	public String toString() {
-		return toString(", ");
+		return toString(config.Config.outputSeparator);
 	}
 
 	public String toString(String separator) {
-		return this.hostName + separator + this.softwareName + separator + this.productKey;
+		return this.hostName + separator + this.softwareName + separator + this.productKey + "\r\n";
 	}
 
 	public void setHostName(String hostName) {

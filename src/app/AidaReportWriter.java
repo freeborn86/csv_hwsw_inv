@@ -49,21 +49,21 @@ public class AidaReportWriter {
 	private static String licenceReportPath = reportPath + "_LICNS.csv";
 
 	// TODO: smarter automatic generation / inclusion of fields from classes
-	private static String computerReportHeader = "Report Date" + config.Config.outputSeparator + "Report Time"
-			+ config.Config.outputSeparator + "Name" + config.Config.outputSeparator + "Chassis Type"
-			+ config.Config.outputSeparator + "Type" + config.Config.outputSeparator + "Memory"
-			+ config.Config.outputSeparator + "CPU" + config.Config.outputSeparator + "Motherboard"
-			+ config.Config.outputSeparator + "Serial" + config.Config.outputSeparator + "Windows Type"
-			+ config.Config.outputSeparator + "Windows Product Key" + config.Config.outputSeparator + "Primary Display"
-			+ config.Config.outputSeparator + "Displays\r\n";
+	private static String computerReportHeader = config.Config.commonHeader + "Report Date"
+			+ config.Config.outputSeparator + "Report Time" + config.Config.outputSeparator + "Name"
+			+ config.Config.outputSeparator + "Chassis Type" + config.Config.outputSeparator + "Type"
+			+ config.Config.outputSeparator + "Memory" + config.Config.outputSeparator + "CPU"
+			+ config.Config.outputSeparator + "Motherboard" + config.Config.outputSeparator + "Serial"
+			+ config.Config.outputSeparator + "Windows Type" + config.Config.outputSeparator + "Windows Product Key"
+			+ config.Config.outputSeparator + "Primary Display" + config.Config.outputSeparator + "Displays\r\n";
 
-	private static String displayReportHeader = "Host" + config.Config.outputSeparator + "Type"
-			+ config.Config.outputSeparator + "Name" + config.Config.outputSeparator + "Resolution"
+	private static String displayReportHeader = config.Config.commonHeader + "Host" + config.Config.outputSeparator
+			+ "Type" + config.Config.outputSeparator + "Name" + config.Config.outputSeparator + "Resolution"
 			+ config.Config.outputSeparator + "Serial Number" + config.Config.outputSeparator + "Manufactured"
 			+ config.Config.outputSeparator + "Size" + "\r\n";
 
-	private static String licenceReportHeader = "Used by (Host)" + config.Config.outputSeparator + "Software Name"
-			+ config.Config.outputSeparator + "Product Key" + "\r\n";
+	private static String licenceReportHeader = config.Config.commonHeader + "Used by (Host)"
+			+ config.Config.outputSeparator + "Software Name" + config.Config.outputSeparator + "Product Key" + "\r\n";
 
 	// TODO: more generic less repetitive approach with writeReportBody in
 	// AidaOutPutReader, or in separate Report classes

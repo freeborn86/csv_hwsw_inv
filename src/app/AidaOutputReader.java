@@ -19,9 +19,9 @@ import enrty_types.LicenceReportEntry;
 
 public class AidaOutputReader {
 
-	private static LinkedList<ComputerReportEntry> computers;
-	private static LinkedList<DisplayReportEntry> displays;
-	private static LinkedList<LicenceReportEntry> licences;
+	private static LinkedList<ComputerReportEntry> computers = new LinkedList<>();
+	private static LinkedList<DisplayReportEntry> displays = new LinkedList<>();
+	private static LinkedList<LicenceReportEntry> licences = new LinkedList<>();
 
 	public static void readAidaOutputFiles()
 			throws IOException, InterruptedException {

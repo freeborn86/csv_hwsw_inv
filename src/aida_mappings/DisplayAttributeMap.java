@@ -26,6 +26,9 @@ public class DisplayAttributeMap {
 				display = new DisplayReportEntry();
 				display.setName(getLastElementWithoutSemiColons(data));
 				display.setHost(computer.getHostName());
+				//debug
+				System.out.print(display.toString());
+				//debugend
 				computer.setExternalDisplayCount(computer.getExternalDisplayCount() + 1);
 			}
 		}

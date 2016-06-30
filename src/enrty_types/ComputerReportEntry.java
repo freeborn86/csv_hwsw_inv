@@ -43,7 +43,7 @@ public class ComputerReportEntry {
 	}
 
 	public String toString() {
-		return toString(",");
+		return toString(config.Config.outputSeparator);
 	}
 
 

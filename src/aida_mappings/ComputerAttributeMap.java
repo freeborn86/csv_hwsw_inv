@@ -12,7 +12,12 @@ public class ComputerAttributeMap {
 		// without it no meaningful data can be extracted from the report
 		if (data.length < 6)
 			return computer;
-		Integer Id = Integer.parseInt(data[3]);
+		Integer Id = -1;
+		try {
+			Id = Integer.parseInt(data[3]);
+		} catch (NumberFormatException n) {
+			return computer;
+		}
 		if (isHostName(Id))
 			computer.setHostName(getLastElementWithoutSemiColons(data));
 		if (isReportDate(Id))
