@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import enrty_types.ComputerReportEntry;
 import enrty_types.LicenceReportEntry;
 
-public class LicenceAttributeMap {
+public class LicenceAttributeParser {
 
 	public static void checkLineAndInsertData(String[] data, ComputerReportEntry computer,
 			LinkedList<LicenceReportEntry> licences) {

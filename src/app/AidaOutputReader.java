@@ -10,9 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
-import aida_mappings.ComputerAttributeMap;
-import aida_mappings.DisplayAttributeMap;
-import aida_mappings.LicenceAttributeMap;
+import aida_mappings.ComputerAttributeParser;
+import aida_mappings.DisplayAttributeParser;
+import aida_mappings.LicenceAttributeParser;
 import enrty_types.ComputerReportEntry;
 import enrty_types.DisplayReportEntry;
 import enrty_types.LicenceReportEntry;
@@ -47,10 +47,10 @@ public class AidaOutputReader {
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(config.Config.inputSeparator);
 
-				ComputerAttributeMap.checkAndInsertData(data, currentComputer, computers);
-				currentDisplay = DisplayAttributeMap.checkLineAndInsertData(data, currentComputer, currentDisplay,
+				ComputerAttributeParser.checkAndInsertData(data, currentComputer, computers);
+				currentDisplay = DisplayAttributeParser.checkLineAndInsertData(data, currentComputer, currentDisplay,
 						displays);
-				LicenceAttributeMap.checkLineAndInsertData(data, currentComputer, licences);
+				LicenceAttributeParser.checkLineAndInsertData(data, currentComputer, licences);
 
 			}
 

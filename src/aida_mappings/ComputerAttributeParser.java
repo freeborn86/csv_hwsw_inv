@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import enrty_types.ComputerReportEntry;
 
-public class ComputerAttributeMap {
+public class ComputerAttributeParser {
 	// TODO function should be void?
 	public static ComputerReportEntry checkAndInsertData(String[] data, ComputerReportEntry computer,
 			LinkedList<ComputerReportEntry> computers) {
