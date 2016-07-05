@@ -26,7 +26,6 @@ public class DisplayAttributeParser {
 		// Since the Aida report is sequential finding a monitor name signifies
 		// a new display
 		if (isName(displayAttributeId)) {
-			// if (display == null) {
 			display = new DisplayReportEntry();
 			display.setName(getLastElementWithoutSemiColons(data));
 			display.setHost(computer.getHostName());
