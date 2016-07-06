@@ -1,7 +1,7 @@
 package enrty_types;
 
 public class LicenceReportEntry {
-	
+
 	String hostName;
 	String softwareName;
 	String productKey;
@@ -14,7 +14,7 @@ public class LicenceReportEntry {
 	}
 
 	public LicenceReportEntry() {
-		this( "N/A", "N/A", "N/A");
+		this("N/A", "N/A", "N/A");
 	}
 
 	public String toString() {
@@ -36,5 +36,5 @@ public class LicenceReportEntry {
 	public void setProductKey(String productKey) {
 		this.productKey = productKey;
 	}
-	
+
 }
