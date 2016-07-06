@@ -1,4 +1,4 @@
-package aida_mappings;
+package aida_output_parsing;
 
 import java.util.LinkedList;
 

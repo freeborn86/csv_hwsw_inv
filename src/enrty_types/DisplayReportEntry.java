@@ -10,9 +10,10 @@ public class DisplayReportEntry {
 	String sizeInInches;
 	String resolution;
 	String host;
+	boolean enrtyAdded;
 
 	public DisplayReportEntry(String name, String model, String type, String manDate, String sn, String size,
-			String res, String host) {
+			String res, String host, boolean entryAdded) {
 		this.name = name;
 		this.model = model;
 		this.type = type;
@@ -21,10 +22,12 @@ public class DisplayReportEntry {
 		this.sizeInInches = size;
 		this.resolution = res;
 		this.host = host;
+		this.enrtyAdded = entryAdded;
 	}
 
+
 	public DisplayReportEntry() {
-		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
+		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", false);
 	}
 
 	public String toString() {
@@ -34,6 +37,26 @@ public class DisplayReportEntry {
 	public String toString(String separator) {
 		return this.host + separator + this.type + separator + this.name + separator + this.resolution + separator
 				+ this.serialNumber + separator + this.manufacturingDate + separator + this.sizeInInches + "\r\n";
+	}
+
+	public boolean equals(DisplayReportEntry other) {
+		if (!other.host.equals(this.host))
+			return false;
+		if (!other.manufacturingDate.equals(this.manufacturingDate))
+			return false;
+		if (!other.model.equals(this.model))
+			return false;
+		if (!other.name.equals(this.name))
+			return false;
+		if (!other.resolution.equals(this.resolution))
+			return false;
+		if (!other.serialNumber.equals(this.serialNumber))
+			return false;
+		if (!other.sizeInInches.equals(this.sizeInInches))
+			return false;
+		if (!other.type.equals(this.type))
+			return false;
+		return true;
 	}
 
 	public void setName(String name) {
@@ -67,4 +90,13 @@ public class DisplayReportEntry {
 	public void setHost(String host) {
 		this.host = host;
 	}
+
+	public void setEnrtyAdded(boolean enrtyAdded) {
+		this.enrtyAdded = enrtyAdded;
+	}
+
+	public boolean isEnrtyAdded() {
+		return enrtyAdded;
+	}
+
 }

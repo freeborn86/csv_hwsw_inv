@@ -1,8 +1,7 @@
-package aida_mappings;
+package aida_output_parsing;
 
 import java.util.LinkedList;
 
-import app.AidaOutputReader;
 import enrty_types.ComputerReportEntry;
 import enrty_types.DisplayReportEntry;
 
@@ -10,8 +9,8 @@ public class DisplayAttributeParser {
 
 	// TODO function should be void? Function should be decomposed to smaller
 	// functions
-	public static DisplayReportEntry checkLineAndInsertData(String[] data, ComputerReportEntry computer,
-			DisplayReportEntry display, LinkedList<DisplayReportEntry> displays) {
+	public static DisplayReportEntry checkLineAndInsertData(String[] data, ComputerReportEntry currentComputer,
+			DisplayReportEntry currentDisplayEntry, LinkedList<DisplayReportEntry> displays) {
 
 		if (data.length < 6)
 			return null;
@@ -21,40 +20,40 @@ public class DisplayAttributeParser {
 
 		String displayAttributeId = data[4];
 
-		boolean displayEntryParsingInProgress = true;
-
 		// Since the Aida report is sequential finding a monitor name signifies
 		// a new display
 		if (isName(displayAttributeId)) {
-			display = new DisplayReportEntry();
-			display.setName(getLastElementWithoutSemiColons(data));
-			display.setHost(computer.getHostName());
-			computer.setExternalDisplayCount(computer.getExternalDisplayCount() + 1);
-			// }
+			currentDisplayEntry = new DisplayReportEntry();
+			currentDisplayEntry.setEnrtyAdded(false);
+			currentDisplayEntry.setName(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setHost(currentComputer.getHostName());
 		}
 
 		if (isManufacturingDate(displayAttributeId))
-			display.setManufacturingDate(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setManufacturingDate(getLastElementWithoutSemiColons(data));
 		if (isModel(displayAttributeId))
-			display.setModel(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setModel(getLastElementWithoutSemiColons(data));
 		if (isResolution(displayAttributeId))
-			display.setResolution(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setResolution(getLastElementWithoutSemiColons(data));
 		if (isSerialNumber(displayAttributeId))
-			display.setSerialNumber(getLastElementWithoutSemiColons(data));
-		// The last important attribute, therefore adding fields ends at it
-		if (isSizeInInches(displayAttributeId)) {
-			display.setSizeInInches(getLastElementWithoutSemiColons(data));
-			if (displayEntryParsingInProgress) {
-				displays.add(display);
-				displayEntryParsingInProgress = false;
-			}
-		}
+			currentDisplayEntry.setSerialNumber(getLastElementWithoutSemiColons(data));
+		if (isSizeInInches(displayAttributeId))
+			currentDisplayEntry.setSizeInInches(getLastElementWithoutSemiColons(data));
 		if (isType(displayAttributeId))
-			display.setType(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setType(getLastElementWithoutSemiColons(data));
 		if (isSupportedModes(data)) {
+			if (currentDisplayEntry.isEnrtyAdded())
+				return currentDisplayEntry;
+			if (currentComputer.isDisplayAdded(currentDisplayEntry)){
+				return currentDisplayEntry;
+			}
 
+			displays.add(currentDisplayEntry);
+			currentComputer.addDisplay(currentDisplayEntry);
+			currentComputer.setExternalDisplayCount(currentComputer.getExternalDisplayCount() + 1);
+			currentDisplayEntry.setEnrtyAdded(true);
 		}
-		return display;
+		return currentDisplayEntry;
 	}
 
 	static String getLastElementWithoutSemiColons(String[] data) {

@@ -1,5 +1,7 @@
 package enrty_types;
 
+import java.util.LinkedList;
+
 public class ComputerReportEntry {
 	// The below fields of computer store hardware attributes of a certain
 	// computer
@@ -19,6 +21,8 @@ public class ComputerReportEntry {
 
 	Integer externalDisplayCount;
 
+	LinkedList<DisplayReportEntry> displaysOfHost;
+
 	public ComputerReportEntry(String hostName, String date, String time, String chassisType, String model,
 			String cpuType, String ramSize, String motherboardType, String serialNumber, String primaryDisplay,
 			String microsoftOsType, String microsoftOsProductKey, Integer externalDisplayCount) {
@@ -36,6 +40,7 @@ public class ComputerReportEntry {
 		this.microsoftOsType = microsoftOsType;
 		this.microsoftOsProductKey = microsoftOsProductKey;
 		this.externalDisplayCount = externalDisplayCount;
+		this.displaysOfHost = new LinkedList<>();
 	}
 
 	public ComputerReportEntry() {
@@ -46,7 +51,6 @@ public class ComputerReportEntry {
 		return toString(config.Config.outputSeparator);
 	}
 
-
 	public String toString(String separator) {
 		return this.date + separator + this.time + separator + this.hostName + separator + this.chassisType + separator
 				+ this.model + separator + this.ramSize.replaceAll(" MB", "") + separator + this.cpuType + separator
@@ -54,7 +58,34 @@ public class ComputerReportEntry {
 				+ this.microsoftOsProductKey + separator + this.primaryDisplay + separator + this.externalDisplayCount
 				+ "\r\n";
 	}
+
+	public LinkedList<DisplayReportEntry> getDisplaysOfHost() {
+		return displaysOfHost;
+	}
+
+	public void addDisplay(DisplayReportEntry displayToAdd) {
+		if (isDisplayAdded(displayToAdd)) {
+			return;
+		}
+		displaysOfHost.add(displayToAdd);
+	}
+
+	public boolean isDisplayAdded(DisplayReportEntry display) {
+		return isDisplayIdenticalToAlreadyAdded(this.displaysOfHost, display);
+		//return displaysOfHost.contains(display);
+	}
+
+	boolean isDisplayIdenticalToAlreadyAdded(LinkedList<DisplayReportEntry> displays,
+			DisplayReportEntry displayEntyToCheck) {
+		for (DisplayReportEntry displayEntryOfList : displays) {
+			if (displayEntyToCheck.equals(displayEntryOfList))
+				return true;
+		}
+		return false;
+	}
 	
+
+
 	public String getHostName() {
 		return hostName;
 	}
@@ -115,5 +146,4 @@ public class ComputerReportEntry {
 		this.externalDisplayCount = externalDisplayCount;
 	}
 
-	
 }
