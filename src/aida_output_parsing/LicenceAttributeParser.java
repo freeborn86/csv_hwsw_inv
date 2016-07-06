@@ -14,11 +14,10 @@ public class LicenceAttributeParser {
 
 		String LicenceAttributeId = data[0];
 
-		
 		if (isLicence(LicenceAttributeId)) {
 			if (getSoftwareName(data).toLowerCase().contains("microsoft internet explorer"))
 				return;
-			
+
 			LicenceReportEntry licence = new LicenceReportEntry();
 			licence.setHostName(computer.getHostName());
 			licence.setProductKey(getProductKey(data));

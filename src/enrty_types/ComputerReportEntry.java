@@ -1,5 +1,9 @@
 package enrty_types;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class ComputerReportEntry {
@@ -20,6 +24,7 @@ public class ComputerReportEntry {
 	String microsoftOsProductKey;
 
 	Integer externalDisplayCount;
+	boolean outDated;
 
 	LinkedList<DisplayReportEntry> displaysOfHost;
 
@@ -39,8 +44,10 @@ public class ComputerReportEntry {
 		this.primaryDisplay = primaryDisplay;
 		this.microsoftOsType = microsoftOsType;
 		this.microsoftOsProductKey = microsoftOsProductKey;
+		
 		this.externalDisplayCount = externalDisplayCount;
 		this.displaysOfHost = new LinkedList<>();
+		this.outDated = false;
 	}
 
 	public ComputerReportEntry() {
@@ -58,6 +65,16 @@ public class ComputerReportEntry {
 				+ this.microsoftOsProductKey + separator + this.primaryDisplay + separator + this.externalDisplayCount
 				+ "\r\n";
 	}
+	
+	//more robust date parsing if format changes?
+	public boolean newer(ComputerReportEntry other) throws ParseException{
+		return this.getReportDate().after(other.getReportDate());
+	}
+	
+	public Date getReportDate() throws ParseException{
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		return format.parse(this.date + " " + this.time);
+	}
 
 	public LinkedList<DisplayReportEntry> getDisplaysOfHost() {
 		return displaysOfHost;
@@ -72,7 +89,7 @@ public class ComputerReportEntry {
 
 	public boolean isDisplayAdded(DisplayReportEntry display) {
 		return isDisplayIdenticalToAlreadyAdded(this.displaysOfHost, display);
-		//return displaysOfHost.contains(display);
+		// return displaysOfHost.contains(display);
 	}
 
 	boolean isDisplayIdenticalToAlreadyAdded(LinkedList<DisplayReportEntry> displays,
@@ -83,8 +100,6 @@ public class ComputerReportEntry {
 		}
 		return false;
 	}
-	
-
 
 	public String getHostName() {
 		return hostName;
@@ -92,6 +107,10 @@ public class ComputerReportEntry {
 
 	public Integer getExternalDisplayCount() {
 		return externalDisplayCount;
+	}
+	
+	public String getSerialNumber() {
+		return serialNumber;
 	}
 
 	public void setHostName(String hostName) {

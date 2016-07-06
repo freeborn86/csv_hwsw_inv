@@ -25,7 +25,6 @@ public class DisplayReportEntry {
 		this.enrtyAdded = entryAdded;
 	}
 
-
 	public DisplayReportEntry() {
 		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", false);
 	}
