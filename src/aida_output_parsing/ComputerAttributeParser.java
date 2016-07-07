@@ -52,6 +52,7 @@ public class ComputerAttributeParser {
 		return data[data.length - 1].replaceAll(";", "");
 	}
 
+	//TODO: Refactor the below to a separate .... mapping class 
 	public static boolean isHostName(int aidaReportLineId) {
 		return aidaReportLineId == 261;
 	}

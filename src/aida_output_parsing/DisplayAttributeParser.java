@@ -59,6 +59,7 @@ public class DisplayAttributeParser {
 		return data[data.length - 1].replaceAll(";", "");
 	}
 
+	//TODO: Refactor the below to a separate .... mapping class
 	public static boolean isName(String displayAttributeId) {
 		return displayAttributeId.toLowerCase().equals("monitor name");
 	}
