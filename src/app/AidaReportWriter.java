@@ -26,11 +26,14 @@ public class AidaReportWriter {
 	}
 
 	private static void writeOutdatedReport() throws IOException {
+		if (AidaReportFilter.getOutdatedComputerEntries().isEmpty())
+			return;
 		FileWriter outdatedReport = new FileWriter(outdatedReportPath);
 		outdatedReport.append(computerReportHeader);
 		writeOutDatedReportBody(outdatedReport);
 		safeClose(outdatedReport);
 	}
+	
 
 	private static void writeDisplayReport() throws IOException {
 		FileWriter displaysWriter = new FileWriter(displayReportPath);
