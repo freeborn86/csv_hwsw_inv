@@ -25,29 +25,28 @@ public class DisplayAttributeParser {
 		if (isName(displayAttributeId)) {
 			currentDisplayEntry = new DisplayReportEntry();
 			currentDisplayEntry.setEnrtyAdded(false);
-			currentDisplayEntry.setName(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setName(getLastElementWithoutSemicolons(data));
 			currentDisplayEntry.setHost(currentComputer.getHostName());
+			currentDisplayEntry.setHostSerial(currentComputer.getSerialNumber());
 		}
-
 		if (isManufacturingDate(displayAttributeId))
-			currentDisplayEntry.setManufacturingDate(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setManufacturingDate(getLastElementWithoutSemicolons(data));
 		if (isModel(displayAttributeId))
-			currentDisplayEntry.setModel(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setModel(getLastElementWithoutSemicolons(data));
 		if (isResolution(displayAttributeId))
-			currentDisplayEntry.setResolution(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setResolution(getLastElementWithoutSemicolons(data));
 		if (isSerialNumber(displayAttributeId))
-			currentDisplayEntry.setSerialNumber(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setSerialNumber(getLastElementWithoutSemicolons(data));
 		if (isSizeInInches(displayAttributeId))
-			currentDisplayEntry.setSizeInInches(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setSizeInInches(getLastElementWithoutSemicolons(data));
 		if (isType(displayAttributeId))
-			currentDisplayEntry.setType(getLastElementWithoutSemiColons(data));
+			currentDisplayEntry.setType(getLastElementWithoutSemicolons(data));
 		if (isSupportedModes(data)) {
 			if (currentDisplayEntry.isEnrtyAdded())
 				return currentDisplayEntry;
-			if (currentComputer.isDisplayAdded(currentDisplayEntry)){
+			if (currentComputer.isDisplayAdded(currentDisplayEntry)) {
 				return currentDisplayEntry;
 			}
-
 			displays.add(currentDisplayEntry);
 			currentComputer.addDisplay(currentDisplayEntry);
 			currentComputer.setExternalDisplayCount(currentComputer.getExternalDisplayCount() + 1);
@@ -56,7 +55,7 @@ public class DisplayAttributeParser {
 		return currentDisplayEntry;
 	}
 
-	static String getLastElementWithoutSemiColons(String[] data) {
+	static String getLastElementWithoutSemicolons(String[] data) {
 		return data[data.length - 1].replaceAll(";", "");
 	}
 

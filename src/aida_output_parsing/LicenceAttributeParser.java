@@ -20,6 +20,7 @@ public class LicenceAttributeParser {
 
 			LicenceReportEntry licence = new LicenceReportEntry();
 			licence.setHostName(computer.getHostName());
+			licence.setHostSerial(computer.getSerialNumber());
 			licence.setProductKey(getProductKey(data));
 			licence.setSoftwareName(getSoftwareName(data));
 			licences.add(licence);

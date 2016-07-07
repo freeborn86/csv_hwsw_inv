@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 import config.Config;
-import enrty_types.ComputerReportEntry;
-import enrty_types.DisplayReportEntry;
-import enrty_types.LicenceReportEntry;
 
 public class AidaReportWriter {
 
@@ -17,6 +15,7 @@ public class AidaReportWriter {
 		writeComputerReport();
 		writeDisplayReport();
 		writeLicenceReport();
+		writeOutdatedReport();
 	}
 
 	private static void writeComputerReport() throws IOException {
@@ -24,6 +23,13 @@ public class AidaReportWriter {
 		computersWriter.append(computerReportHeader);
 		writeComputerReportBody(computersWriter);
 		safeClose(computersWriter);
+	}
+
+	private static void writeOutdatedReport() throws IOException {
+		FileWriter outdatedReport = new FileWriter(outdatedReportPath);
+		outdatedReport.append(computerReportHeader);
+		writeOutDatedReportBody(outdatedReport);
+		safeClose(outdatedReport);
 	}
 
 	private static void writeDisplayReport() throws IOException {
@@ -45,6 +51,7 @@ public class AidaReportWriter {
 			+ timeStamp;
 
 	private static String computerReportPath = reportPath + "_COMPS.csv";
+	private static String outdatedReportPath = reportPath + "_OUTDT.csv";
 	private static String displayReportPath = reportPath + "_DISPS.csv";
 	private static String licenceReportPath = reportPath + "_LICNS.csv";
 
@@ -65,23 +72,25 @@ public class AidaReportWriter {
 	private static String licenceReportHeader = config.Config.commonHeader + "Used by (Host)"
 			+ config.Config.outputSeparator + "Software Name" + config.Config.outputSeparator + "Product Key" + "\r\n";
 
-	// TODO: more generic less repetitive approach with writeReportBody in
-	// AidaOutPutReader, or in separate Report classes
 	private static void writeComputerReportBody(FileWriter fw) throws IOException {
-		for (ComputerReportEntry computerEntry : AidaOutputReader.getComputers()) {
-			fw.append(computerEntry.toString());
-		}
+		writeReportBody(fw, AidaReportFilter.getFilteredComputers());
 	}
 
 	private static void writeDisplayReportBody(FileWriter fw) throws IOException {
-		for (DisplayReportEntry displayEntry : AidaOutputReader.getDisplays()) {
-			fw.append(displayEntry.toString());
-		}
+		writeReportBody(fw, AidaReportFilter.getFilteredDisplays());
 	}
 
 	private static void writeLicenceReportBody(FileWriter fw) throws IOException {
-		for (LicenceReportEntry LicenceEntry : AidaOutputReader.getLicences()) {
-			fw.append(LicenceEntry.toString());
+		writeReportBody(fw, AidaReportFilter.getFilteredLicences());
+	}
+
+	private static void writeOutDatedReportBody(FileWriter fw) throws IOException {
+		writeReportBody(fw, AidaReportFilter.getOutdatedComputerEntries());
+	}
+
+	private static <E> void writeReportBody(FileWriter fw, LinkedList<E> reportBody) throws IOException {
+		for (E element : reportBody) {
+			fw.append(element.toString());
 		}
 	}
 

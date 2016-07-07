@@ -6,50 +6,49 @@ import enrty_types.ComputerReportEntry;
 
 public class ComputerAttributeParser {
 	// TODO function should be void?
-	public static ComputerReportEntry checkAndInsertData(String[] data, ComputerReportEntry computer,
+	public static void checkAndInsertData(String[] data, ComputerReportEntry computer,
 			LinkedList<ComputerReportEntry> computers) {
 		// The AIDA report stores the value of the attribute on the 6th column
 		// without it no meaningful data can be extracted from the report
 		if (data.length < 6)
-			return computer;
+			return;
 		Integer Id = -1;
 		try {
 			Id = Integer.parseInt(data[3]);
 		} catch (NumberFormatException n) {
-			return computer;
+			return;
 		}
 		if (isHostName(Id))
-			computer.setHostName(getLastElementWithoutSemiColons(data));
+			computer.setHostName(getLastElementWithoutSemicolons(data));
 		if (isReportDate(Id))
-			computer.setDate(getLastElementWithoutSemiColons(data));
+			computer.setDate(getLastElementWithoutSemicolons(data));
 		if (isReportTime(Id))
-			computer.setTime(getLastElementWithoutSemiColons(data));
+			computer.setTime(getLastElementWithoutSemicolons(data));
 		if (isChassisType(Id))
-			computer.setChassisType(getLastElementWithoutSemiColons(data));
+			computer.setChassisType(getLastElementWithoutSemicolons(data));
 		if (isCpuType(Id))
-			computer.setCpuType(getLastElementWithoutSemiColons(data));
+			computer.setCpuType(getLastElementWithoutSemicolons(data));
 		if (isMicrosoftOsProductKey(Id))
-			computer.setMicrosoftOsProductKey(getLastElementWithoutSemiColons(data));
+			computer.setMicrosoftOsProductKey(getLastElementWithoutSemicolons(data));
 		if (isModel(Id))
-			computer.setModel(getLastElementWithoutSemiColons(data));
+			computer.setModel(getLastElementWithoutSemicolons(data));
 		if (isMotherboardType(Id))
-			computer.setMotherboardType(getLastElementWithoutSemiColons(data));
+			computer.setMotherboardType(getLastElementWithoutSemicolons(data));
 		if (isRamSize(Id))
-			computer.setRamSize(getLastElementWithoutSemiColons(data));
+			computer.setRamSize(getLastElementWithoutSemicolons(data));
 		if (isPrimaryDisplay(Id))
-			computer.setPrimaryDisplay(getLastElementWithoutSemiColons(data));
+			computer.setPrimaryDisplay(getLastElementWithoutSemicolons(data));
 		if (isSerialNumber(Id))
-			computer.setSerialNumber(getLastElementWithoutSemiColons(data));
-		// since this is the last attribute adding the computer at it to the
-		// list
+			computer.setSerialNumber(getLastElementWithoutSemicolons(data));
+		// Last used attribute, adding the computer at it to the list
 		if (isMicrosoftOsType(Id)) {
-			computer.setMicrosoftOsType(getLastElementWithoutSemiColons(data));
+			computer.setMicrosoftOsType(getLastElementWithoutSemicolons(data));
 			computers.add(computer);
 		}
-		return computer;
+		return;
 	}
 
-	static String getLastElementWithoutSemiColons(String[] data) {
+	static String getLastElementWithoutSemicolons(String[] data) {
 		return data[data.length - 1].replaceAll(";", "");
 	}
 

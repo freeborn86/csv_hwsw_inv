@@ -1,21 +1,28 @@
 AIDA Report summary Changelog:
 ____________________________
-v0.8 - not released yet
+____________________________
+v0.75 - not released yet
 -------------------------
 GUI with additional options
 ____________________________
-v0.74- not released yet
--------------------------
--Duplicate SN filtering: keep newer
--Separate Installed SW list
--Display  DATE/SN bugfix
 ____________________________
-v0.73bc - 2015.12.05
+v0.74b - not released yet
+-------------------------
+-Separate Installed SW list
+____________________________
+____________________________
+v0.74- 2016.07.07
+-------------------------
+-Duplicate computer filtering: keep newer
+-Display  DATE/SN bugfix
+-Mulitple Display Filtering
+____________________________
+____________________________
+v0.73b/c - 2015.12.08
 -------------------------
 -added chassis type to computers:
 notebook / pc
--CSV delimiter detection added
-to Config.Java
+____________________________
 ____________________________
 v0.73 - 2015.09.29
 -------------------------

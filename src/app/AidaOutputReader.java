@@ -41,7 +41,6 @@ public class AidaOutputReader {
 		String line = "";
 
 		try {
-
 			br = new BufferedReader(new FileReader(csvFilePath));
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(config.Config.inputSeparator);
@@ -52,7 +51,6 @@ public class AidaOutputReader {
 						displays);
 
 				LicenceAttributeParser.checkLineAndInsertData(data, currentComputer, licences);
-
 			}
 
 		} catch (FileNotFoundException e) {

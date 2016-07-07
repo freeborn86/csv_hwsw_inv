@@ -1,6 +1,6 @@
 package enrty_types;
 
-public class DisplayReportEntry {
+public class DisplayReportEntry implements HasHostIdForFiltering {
 
 	String name;
 	String model;
@@ -10,10 +10,11 @@ public class DisplayReportEntry {
 	String sizeInInches;
 	String resolution;
 	String host;
+	String hostSerial;
 	boolean enrtyAdded;
 
 	public DisplayReportEntry(String name, String model, String type, String manDate, String sn, String size,
-			String res, String host, boolean entryAdded) {
+			String res, String host, String hostSerial, boolean entryAdded) {
 		this.name = name;
 		this.model = model;
 		this.type = type;
@@ -22,11 +23,12 @@ public class DisplayReportEntry {
 		this.sizeInInches = size;
 		this.resolution = res;
 		this.host = host;
+		this.hostSerial = hostSerial;
 		this.enrtyAdded = entryAdded;
 	}
 
 	public DisplayReportEntry() {
-		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", false);
+		this("N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", false);
 	}
 
 	public String toString() {
@@ -56,6 +58,27 @@ public class DisplayReportEntry {
 		if (!other.type.equals(this.type))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String getSerialNumberForFiltering() {
+		return getHostSerial();
+	}
+
+	public String getHostNameForFiltering() {
+		return getHost();
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public String getHostSerial() {
+		return hostSerial;
+	}
+
+	public void setHostSerial(String hostSerial) {
+		this.hostSerial = hostSerial;
 	}
 
 	public void setName(String name) {
