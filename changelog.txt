@@ -14,6 +14,8 @@ ____________________________
 v0.74- 2016.07.07
 -------------------------
 -Duplicate computer filtering: keep newer
+-Generating OUTDT report to help
+deleting old computers
 -Display  DATE/SN bugfix
 -Mulitple Display Filtering
 ____________________________
