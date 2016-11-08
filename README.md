@@ -9,7 +9,9 @@ Description
 * Summarizes data into 4 report files: Computers, Displays, Licences, Outdated
 * Each line in the summary report represents a single Computer, Display etc. with its atributes
 
-Notes
------
-* The peak memory usage on Windows (7,8,10) can be 400-800Mb when conv Summarizing ~200+ source files, this should be fixed (String -> Stringbuilder?)
-* The code was once refactored when the comp-dupe-filter branch was created, yet there remain quite a few places to refactor and clean up
+Notes, Problems
+---------------
+* The peak memory usage on Windows (7,8,10) can be 400-800MB when summarizing ~200+ source files, this should be fixed (String -> Stringbuilder?)
+* The code was once refactored with the comp-dupe-filter, but it is still far from clean code
+* Classes have too many responsibilities (should decompose to more classes)
+* Some functions have too many paramteres, do too many things, and code inside them is not always on the same level of abstraction
